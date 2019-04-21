@@ -13,8 +13,8 @@
   - [ https://streamable.com/tz9rn ]
   
 [ Installation ]
-  Put wherever you want inside resources.
-  Put `start 99kr-gym` in your sever.cfg
+  - Put wherever you want inside resources.
+  - Put `start 99kr-gym` in your sever.cfg
 
 [ Requirements ]
   - None :open_mouth:
