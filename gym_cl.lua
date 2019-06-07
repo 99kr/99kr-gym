@@ -72,7 +72,7 @@ function startExercise(animInfo, pos)
             local playerCoords = GetEntityCoords(playerPed)
             if procent <= 99 then
                 TaskPlayAnim(playerPed, animInfo["idleDict"], animInfo["idleAnim"], 8.0, -8.0, -1, 0, 0.0, 0, 0, 0)
-                if IsControlJustPressed(0, Keys["SPACE"]) then -- press space to exit training
+                if IsControlJustPressed(0, Keys["SPACE"]) then -- press space to train
                     canExercise = false
                     TaskPlayAnim(playerPed, animInfo["actionDict"], animInfo["actionAnim"], 8.0, -8.0, animInfo["actionTime"], 0, 0.0, 0, 0, 0)
                     AddProcent(animInfo["actionProcent"], animInfo["actionProcentTimes"], animInfo["actionTime"] - 70)
