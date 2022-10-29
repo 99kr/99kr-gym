@@ -6,7 +6,7 @@ local motionProcent = 0
 local doingMotion = false
 local motionTimesDone = 0
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
         local sleep = 500
         local coords = GetEntityCoords(PlayerPedId())
@@ -31,7 +31,6 @@ end)
 
 function startExercise(animInfo, pos)
     local playerPed = PlayerPedId()
-
     LoadDict(animInfo["idleDict"])
     LoadDict(animInfo["enterDict"])
     LoadDict(animInfo["exitDict"])
@@ -48,25 +47,25 @@ function startExercise(animInfo, pos)
     canExercise = true
     exercising = true
 
-    Citizen.CreateThread(function()
-        while exercising do
-            Citizen.Wait(8)
-            if procent <= 24.99 then
-                color = "~r~"
-            elseif procent <= 49.99 then
-                color = "~o~"
-            elseif procent <= 74.99 then
-                color = "~b~"
-            elseif procent <= 100 then
-                color = "~g~"
-            end
-            DrawText2D(0.505, 0.925, 1.0,1.0,0.33, "Percentage: " .. color..procent .. "%", 255, 255, 255, 255)
-            DrawText2D(0.505, 0.95, 1.0,1.0,0.33, "Press ~g~[SPACE]~w~ to train", 255, 255, 255, 255)
-            DrawText2D(0.505, 0.975, 1.0,1.0,0.33, "Press ~r~[DELETE]~w~ to stop training", 255, 255, 255, 255)
-        end
-    end)
+	CreateThread(function()
+		while exercising do
+		    Citizen.Wait(8)
+		    if procent <= 24.99 then
+			color = "~r~"
+		    elseif procent <= 49.99 then
+			color = "~o~"
+		    elseif procent <= 74.99 then
+			color = "~b~"
+		    elseif procent <= 100 then
+			color = "~g~"
+		    end
+		    DrawText2D(0.505, 0.925, 1.0,1.0,0.33, "Percentage: " .. color..procent .. "%", 255, 255, 255, 255)
+		    DrawText2D(0.505, 0.95, 1.0,1.0,0.33, "Press ~g~[SPACE]~w~ to train", 255, 255, 255, 255)
+		    DrawText2D(0.505, 0.975, 1.0,1.0,0.33, "Press ~r~[DELETE]~w~ to stop training", 255, 255, 255, 255)
+		end
+	    end)
 
-    Citizen.CreateThread(function()
+    	CreateThread(function()
         while canExercise do
             Citizen.Wait(8)
             local playerCoords = GetEntityCoords(playerPed)
@@ -96,7 +95,7 @@ RegisterCommand("motion", function()
 
     Citizen.CreateThread(function()
         while doingMotion do
-            Citizen.Wait(7) 
+            	Wait(7) 
             if IsPedSprinting(PlayerPedId()) then
                 motionProcent = motionProcent + 9
             elseif IsPedRunning(PlayerPedId()) then
@@ -130,7 +129,7 @@ end)
 
 function ExitTraining(exitDict, exitAnim, exitTime)
     TaskPlayAnim(PlayerPedId(), exitDict, exitAnim, 8.0, -8.0, exitTime, 0, 0.0, 0, 0, 0)
-    Citizen.Wait(exitTime)
+    Wait(exitTime)
     canExercise = false
     exercising = false
     procent = 0
@@ -138,7 +137,7 @@ end
 
 function AddProcent(amount, amountTimes, time)
     for i=1, amountTimes do
-        Citizen.Wait(time/amountTimes)
+        Wait(time/amountTimes)
         procent = procent + amount
     end
 end
@@ -146,7 +145,7 @@ end
 function LoadDict(dict)
     RequestAnimDict(dict)
 	while not HasAnimDictLoaded(dict) do
-	  	Citizen.Wait(10)
+	  	Wait(10)
     end
 end
 
@@ -180,7 +179,7 @@ function DrawText2D(x, y, width, height, scale, text, r, g, b, a, outline)
 	DrawText(x - width/2, y - height/2 + 0.005)
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     for i=1, #Config.Blips, 1 do
         local Blip = Config.Blips[i]
         blip = AddBlipForCoord(Blip["x"], Blip["y"], Blip["z"])
